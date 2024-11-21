@@ -31,5 +31,11 @@ This will create a database in MongoDB called __infodisclosure__. Verify its pre
 Answer the following:
 
 1. Briefly explain the potential vulnerabilities in **insecure.ts**
+
+    The main vulnerability is that the inputs for the username are not sanitized, meaning a malicious user can inject a query to the database.
 2. Briefly explain how a malicious attacker can exploit them.
+
+    A malicious user can inject a query to the database to access private information. In this case, the user can access passwords.
 3. Briefly explain the defensive techniques used in **secure.ts** to prevent the information disclosure vulnerability?
+
+    secure.ts sanitizes the inputs, meaning the user cannot inject a query to the database.

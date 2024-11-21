@@ -31,5 +31,11 @@ This will create a database in MongoDB called __infodisclosure__. Verify its pre
 Answer the following:
 
 1. Briefly explain the potential vulnerabilities in **insecure.ts** that can lead to a DoS attack.
+
+    The issue here is that the server does not safely handle the case where the user inputs an invalid id, meaning users can intentionally crash the server (DOS). Additionally, the server does not have any rate limiting, meaning users can spam requests to the server and crash it.
 2. Briefly explain how a malicious attacker can exploit them.
+
+    A malicious user can exploit this vulnerability by intentionally inputting an invalid id to crash the server. Additionally, they can send a large number of requests to the server to crash it.
 3. Briefly explain the defensive techniques used in **secure.ts** to prevent the DoS vulnerability?
+
+    secure.ts adds try catch error handling handles the case where the user inputs an invalid id, meaning users cannot intentionally crash the server. It also adds rate limiting, meaning users cannot spam requests to the server and crash it. To provide further resilance, we could add a firewall or load balancer to prevent DOS attacks on the middleware layer.

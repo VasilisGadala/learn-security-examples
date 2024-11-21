@@ -29,6 +29,24 @@ This example demonstrates spoofind through two ways -- Stealing cookies programm
 
 ## For you to answer
 
-1. Briefly explain the spoofing vulnerability in **insecure.ts**.
-2. Briefly explain different ways in which vulnerability can be exploited.
-3. Briefly explain why **secure.ts** does not have the spoofing vulnerability in **insecure.ts**.
+1. Briefly explain the spoofing vulnerability in **insecure.ts**. 
+   
+   This file is susceptible to CSRF attacks for the following reasons:
+   1. Setting the middleware httpOnly to false enables clients to access cookies
+   2. The secret is hardcoded, meaning it can be read by the client.
+   3. SameSite is set to false, meaning requests can be made from varying domains
+   4. The request itself doesn't sanitize inputs, leaving vulnerabilities to injection and CSRF attacks
+2. Briefly explain different ways in which vulnerability can be exploited. 
+   
+   Because HttpOnly is set to false, clients can grab the cookie through malicious document inputs.
+In the example, this is done by taking advantage of unsanitized inputs to create a malicious form that steals the cookie.
+Not having SameSite hardcoded means the attacker can make request across domains rather than from the main site, i.e. 
+by redirecting users to feign web pages. Not hardcoding the secret will allow attackers to copy a client's signature. 
+This is important because the secret is used to sign the session, so malicious access to the secret enables attackers to
+make validated requests as the client.
+3. Briefly explain why **secure.ts** does not have the spoofing vulnerability in **insecure.ts**. 
+
+   secure.ts fixed the aforementioned issues by requiring clients to pass secrets instead of hard-coding them,
+setting httpOnly to true to prevent easy access to client cookies, and setting sameSite to true to prevent CSRF attacks.
+It does not directly sanitize the inputs as described in the tampering section.
+   
